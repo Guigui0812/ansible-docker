@@ -27,10 +27,10 @@
 
 - name: Add Docker repository for other architectures
   apt_repository:
-    repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_os_family | lower }} {{ ansible_distribution_release }} stable"
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_os_family | lower }} {{ ansible_distribution_release }} stable"
     state: present
     filename: docker
-  when: ansible_architecture != "aarch64" and ansible_os_family == "Debian"
+  when: ansible_architecture == "x86_64" and ansible_os_family == "Debian"
 
 - name: Install Docker packages
   apt:
