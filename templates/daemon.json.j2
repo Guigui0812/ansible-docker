@@ -5,6 +5,10 @@
     "max-size": "10m",
     "max-file": "5",
     "compress": "true"
-  }
-{{ docker_daemon_config | to_nice_json(indent=2) if docker_daemon_config is defined }}
+  },
+{% if docker_ipv6 %}
+  "ipv6": true,
+  "fixed-cidr-v6": "{{ docker_ipv6_subnet }}",
+{% endif %}
+  "metrics-addr": "{{ docker_metrics_address }}"
 }

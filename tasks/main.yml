@@ -43,6 +43,17 @@
     state: present
     update_cache: yes
   when: ansible_os_family == "Debian"
+- name: Create daemon.json file
+  template:
+    src: templates/daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: 0644
+  notify: Restart Docker
+- name: Enable and start Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
 
 - name: Add Docker users to docker group
   user:
@@ -51,15 +62,4 @@
     append: yes
   loop: "{{ docker_users }}"
 
-- name: Enable and start Docker service
-  systemd:
-    name: docker
-    enabled: yes
-    state: started
 
-- name: Create daemon.json file
-  template:
-    src: templates/daemon.json.j2
-    dest: /etc/docker/daemon.json
-    mode: 0644
-  notify: Restart Docker

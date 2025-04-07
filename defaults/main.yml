@@ -1,4 +1,5 @@
 ---
 # defaults file for docker
 docker_users: []
-docker_daemon_config: ""
+docker_metrics_address: "localhost:9323"
+docker_ipv6: false
